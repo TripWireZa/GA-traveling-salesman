@@ -2,12 +2,34 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>GA - Travelling SalesMan</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <canvas id="landscape" width="800" height="600" style="border:1px solid #000000;"><canvas>
+    
   </body>
 </html>
+
+
+
+<script type="text/javascript">
+
+  window.$ = window.jQuery = require('./scripts/packages/jquery-1.12.3.min.js');
+
+  $(document).ready(function () {
+      
+      var options = {
+        GenerateCircle: true,
+        NumberOfCities: 24,
+        CityIconSize: 15
+      };
+  
+      var pathFinder = new PathFinder(options);
+      pathFinder.Init();
+  });
+
+</script>
+<script src="./scripts/pathFinder.js"></script>
+<script src="./scripts/viewmodels/renderer.js"></script>
+<script src="./scripts/viewmodels/city.js"></script>
+<script src="./scripts/viewmodels/cities.js"></script>
