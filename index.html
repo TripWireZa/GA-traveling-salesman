@@ -3,10 +3,20 @@
   <head>
     <meta charset="UTF-8">
     <title>GA - Travelling SalesMan</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/site.css" rel="stylesheet" />
   </head>
   <body>
-    <canvas id="landscape" width="800" height="600" style="border:1px solid #000000;"><canvas>
-    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-9">
+          <canvas id="landscape" width="800" height="600" style="border:1px solid #000000;"><canvas>
+        </div>
+        <div class="col-md-3">
+          
+        </div>
+      </div>
+    </div>
   </body>
 </html>
 
@@ -19,17 +29,21 @@
   $(document).ready(function () {
       
       var options = {
-        GenerateCircle: true,
-        NumberOfCities: 24,
-        CityIconSize: 15
+        generateCircle: true,
+        numberOfCities: 24,
+        cityIconSize: 15
       };
   
       var pathFinder = new PathFinder(options);
+      ko.applyBindings(pathFinder);
       pathFinder.Init();
   });
 
 </script>
+<script src="./scripts/packages/knockout-3.4.0.js"></script>
+<script src="./scripts/packages/bootstrap.min.js"></script>
+
 <script src="./scripts/pathFinder.js"></script>
 <script src="./scripts/viewmodels/renderer.js"></script>
 <script src="./scripts/viewmodels/city.js"></script>
-<script src="./scripts/viewmodels/cities.js"></script>
+<script src="./scripts/viewmodels/cityManager.js"></script>
