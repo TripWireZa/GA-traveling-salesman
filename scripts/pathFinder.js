@@ -1,12 +1,12 @@
 function PathFinder(options) {
+    const cityIconSize = 15;
     var self = this;
     
-    self.NumberOfCities = options.numberOfCities;
-    self.GenerateCircle = options.generateCircle;
+    self.numberOfCities = ko.observable(options.numberOfCities);
+    self.generateCircle = ko.observable(options.generateCircle);
+    self.crossoverRate = ko.observable(options.crossoverRate);
     
-    self.renderer = new Renderer({ 
-        CityIconSize: options.CityIconSize
-    });
+    self.renderer = new Renderer({CityIconSize: cityIconSize});
     self.cityManager = new CityManager();
     
     self.Init = function () {
@@ -16,7 +16,7 @@ function PathFinder(options) {
     };
     
     self.Reset = function () {
-        self.cityManager.GenerateCities(self.NumberOfCities, self.GenerateCircle);
-        self.renderer.Render(self.cityManager.cities);
+        self.cityManager.GenerateCities(self.numberOfCities(), self.generateCircle());
+        self.renderer.Render(self.cityManager.cities());
     }
 }

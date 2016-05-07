@@ -9,10 +9,51 @@
   <body>
     <div class="container-fluid">
       <div class="row">
+        
+        <!--main panel-->
         <div class="col-md-9">
           <canvas id="landscape" width="800" height="600" style="border:1px solid #000000;"><canvas>
         </div>
+        
+        <!--right section-->
         <div class="col-md-3">
+          
+          <!--options panel-->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Options</h3>
+            </div>
+            <div class="panel-body">
+              <form class="form-horizontal">
+                
+                <div class="form-group form-group-sm">
+                  <label for="GenerateCircle" class="col-sm-6 control-label">Generate circle</label>
+                  <div class="col-sm-6">
+                    <input type="checkbox" id="GenerateCircle" data-bind="checked: generateCircle">
+                  </div>
+                </div>
+                
+                <div class="form-group form-group-sm">
+                  <label for="NumberOfCities" class="col-sm-6 control-label">Number of cities</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" id="NumberOfCities" placeholder="Number of cities" data-bind="value: numberOfCities">
+                  </div>
+                </div>
+                
+                <div class="form-group form-group-sm">
+                  <label for="CrossoverRate" class="col-sm-6 control-label">Crossover rate</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" id="CrossoverRate" placeholder="Crossover rate" data-bind="value: crossoverRate">
+                  </div>
+                </div>
+                
+                <button type="button" class="btn btn-default" data-bind="click: Reset">Reset</button>
+                
+              </form>  
+                
+              
+            </div>
+          </div>
           
         </div>
       </div>
@@ -27,22 +68,25 @@
   window.$ = window.jQuery = require('./scripts/packages/jquery-1.12.3.min.js');
 
   $(document).ready(function () {
-      
-      var options = {
-        generateCircle: true,
-        numberOfCities: 24,
-        cityIconSize: 15
-      };
-  
-      var pathFinder = new PathFinder(options);
-      ko.applyBindings(pathFinder);
-      pathFinder.Init();
+          
+    var options = {
+      generateCircle: true,
+      numberOfCities: 24,
+      crossoverRate: 80
+    };
+
+    var pathFinder = new PathFinder(options);
+    ko.applyBindings(pathFinder);
+    pathFinder.Init();
   });
 
 </script>
+
+<!--packages-->
 <script src="./scripts/packages/knockout-3.4.0.js"></script>
 <script src="./scripts/packages/bootstrap.min.js"></script>
 
+<!--viewmodels-->
 <script src="./scripts/pathFinder.js"></script>
 <script src="./scripts/viewmodels/renderer.js"></script>
 <script src="./scripts/viewmodels/city.js"></script>

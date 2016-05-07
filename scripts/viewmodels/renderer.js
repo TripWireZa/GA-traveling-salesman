@@ -8,6 +8,7 @@ function Renderer(params) {
     self.Render = function (cities) {
         var canvas = $('#landscape')[0];
         var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
         
         self.DrawCities(context, cities);
     }
