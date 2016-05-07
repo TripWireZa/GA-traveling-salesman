@@ -41,11 +41,21 @@
                 </div>
                 
                 <div class="form-group form-group-sm">
+                  <label for="GenerationSize" class="col-sm-6 control-label">Generation size</label>
+                  <div class="col-sm-6">
+                    <input class="form-control" id="GenerationSize" placeholder="Generation size" data-bind="value: generationSize">
+                  </div>
+                </div>
+                
+                <div class="form-group form-group-sm">
                   <label for="CrossoverRate" class="col-sm-6 control-label">Crossover rate</label>
                   <div class="col-sm-6">
                     <input class="form-control" id="CrossoverRate" placeholder="Crossover rate" data-bind="value: crossoverRate">
                   </div>
                 </div>
+                
+                
+                
                 
                 <button type="button" class="btn btn-default" data-bind="click: Reset">Reset</button>
                 
@@ -72,7 +82,8 @@
     var options = {
       generateCircle: true,
       numberOfCities: 24,
-      crossoverRate: 80
+      crossoverRate: 80,
+      generationSize: 100
     };
 
     var pathFinder = new PathFinder(options);
@@ -91,3 +102,5 @@
 <script src="./scripts/viewmodels/renderer.js"></script>
 <script src="./scripts/viewmodels/city.js"></script>
 <script src="./scripts/viewmodels/cityManager.js"></script>
+<script src="./scripts/viewmodels/engine.js"></script>
+<script src="./scripts/viewmodels/chromosone.js"></script>
