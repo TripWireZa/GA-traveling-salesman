@@ -1,38 +1,8 @@
 function Renderer(params) {
     var self = this;
     
-    self.cityIconSize = params.CityIconSize;
-    self.iconRadius = params.CityIconSize/2;
-    self.iconWallOffset = params.CityIconSize/3;
-    self.cityCanvas = $('#cityLandscape')[0];
-    self.cityContext = self.cityCanvas.getContext('2d');
     self.routeCanvas = $('#routeLandscape')[0];
     self.routeContext = self.routeCanvas.getContext('2d');
-    
-    self.DrawCities = function(cities){
-        //clear canvas
-        self.cityCanvas.width = self.cityCanvas.width;
-        
-        for (var i = 0; i < cities.length; i++){
-            self.DrawHouse(cities[i]);
-        }
-    };
-    
-    self.DrawHouse = function(city){
-        self.cityContext.moveTo(city.x - self.iconRadius, city.y);
-        self.cityContext.lineTo(city.x, city.y - self.iconRadius);
-        self.cityContext.lineTo(city.x + self.iconRadius, city.y);
-        self.cityContext.lineTo(city.x + self.iconWallOffset, city.y);
-        self.cityContext.lineTo(city.x + self.iconWallOffset, city.y + self.iconRadius);
-        self.cityContext.lineTo(city.x - self.iconWallOffset, city.y + self.iconRadius);
-        self.cityContext.lineTo(city.x - self.iconWallOffset, city.y);
-        self.cityContext.closePath();
-        self.cityContext.fillStyle = 'red';
-        self.cityContext.fill();
-        self.cityContext.lineWidth = 1;
-        self.cityContext.strokeStyle = '#000000';
-        self.cityContext.stroke();
-    }
     
     self.DrawFittestChromosome = function(chromosome, cities){
         

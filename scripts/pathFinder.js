@@ -1,5 +1,4 @@
 function PathFinder(options) {
-    const cityIconSize = 15;
     var self = this;
     
     self.numberOfCities = ko.observable(options.numberOfCities);
@@ -11,7 +10,7 @@ function PathFinder(options) {
     self.fittestChromosome = ko.observable(null);
     self.isRunning = ko.observable(false);
     
-    self.renderer = new Renderer({CityIconSize: cityIconSize});
+    self.renderer = new Renderer();
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
     
@@ -26,7 +25,6 @@ function PathFinder(options) {
     self.Reset = function () {
         self.cityManager.GenerateCities(self.numberOfCities(), self.generateCircle());
         
-        self.renderer.DrawCities(self.cityManager.cities());
         
         self.engine.Init(self.numberOfCities(), self.generationSize(), self.crossoverRate());
         

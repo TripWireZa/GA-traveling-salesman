@@ -12,7 +12,8 @@
         
         <!--main panel-->
         <div id="landscapeCell" class="col-md-9">
-          <canvas id="cityLandscape" width="800" height="600"></canvas>
+          <canvas id="cityLandscape" width="800" height="600" data-bind="renderCities: cityManager.cities"></canvas>
+          
           <canvas id="routeLandscape" width="800" height="600"></canvas>
         </div>
         
@@ -73,10 +74,13 @@
               <h3 class="panel-title">Controls</h3>
             </div>
             <div class="panel-body">
-              <button type="button" class="btn btn-primary" data-bind="click: StartEvolution, disable: isRunning">Start</button>
-              <button type="button" class="btn btn-danger" data-bind="click: EndEvolution, enable: isRunning">Stop</button>
-              
-              <button type="button" class="btn btn-default" data-bind="click: RunEpoch, disable: isRunning">Run single epoch</button>
+              <p>
+                <button type="button" class="btn btn-primary" data-bind="click: StartEvolution, disable: isRunning">Start</button>
+                <button type="button" class="btn btn-danger" data-bind="click: EndEvolution, enable: isRunning">Stop</button>
+              </p>
+              <p>
+                <button type="button" class="btn btn-default" data-bind="click: RunEpoch, disable: isRunning">Run single epoch</button>
+              </p>
             </div>
           </div>
           <!--end control panel-->
@@ -132,6 +136,9 @@
 <script src="./scripts/packages/knockout-3.4.0.js"></script>
 <script src="./scripts/packages/bootstrap.min.js"></script>
 
+<!--bindinghandlers-->
+<script src="./scripts/bindinghandlers/ko.renderCities.js"></script>
+
 <!--viewmodels-->
 <script src="./scripts/pathFinder.js"></script>
 <script src="./scripts/viewmodels/renderer.js"></script>
@@ -139,3 +146,4 @@
 <script src="./scripts/viewmodels/cityManager.js"></script>
 <script src="./scripts/viewmodels/engine.js"></script>
 <script src="./scripts/viewmodels/chromosone.js"></script>
+
