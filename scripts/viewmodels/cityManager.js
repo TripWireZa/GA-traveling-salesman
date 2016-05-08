@@ -14,7 +14,6 @@ function CityManager(params) {
         } else {
             self.GenerateCitiesRandom(numberOfCities);
         }
-        //console.log(self.cities);
     };
     
     self.GenerateCitiesCircle = function (numberOfCities) {

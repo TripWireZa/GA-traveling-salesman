@@ -9,10 +9,13 @@ function PathFinder(options) {
     self.cityCanvasWidth = options.cityCanvasWidth;
     self.cityCanvasHeight = options.cityCanvasHeight;
     self.fittestChromosome = ko.observable(null);
+    self.isRunning = ko.observable(false);
     
     self.renderer = new Renderer({CityIconSize: cityIconSize});
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
+    
+    
     
     self.Init = function () {
         
@@ -25,14 +28,40 @@ function PathFinder(options) {
         
         self.renderer.DrawCities(self.cityManager.cities());
         
-        self.engine.Init(self.numberOfCities(), self.generationSize());
+        self.engine.Init(self.numberOfCities(), self.generationSize(), self.crossoverRate());
         
         self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
         
         self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
     };
     
+    self.StartEvolution = function(){
+        self.isRunning(true);
+        
+        var mustRun = true
+        while(mustRun){
+            self.engine.Epoch(self.EvaluateFitness);
+            
+            if (self.engine.generationCount % 100 == 0)
+            {
+                if(!self.isRunning())
+                    mustRun = false;    //only stop after a full generation cycle
+                    
+                self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
+                self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
+            }
+        }
+    }
     
+    self.EndEvolution =function(){
+        self.isRunning(false);
+    }
+    
+    self.RunEpoch = function(){
+        self.engine.Epoch(self.EvaluateFitness);
+        self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
+        self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
+    };
     
     // evolution methods
     //==================

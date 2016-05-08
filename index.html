@@ -30,42 +30,72 @@
                 <div class="form-group form-group-sm">
                   <label for="GenerateCircle" class="col-sm-6 control-label">Generate circle</label>
                   <div class="col-sm-6">
-                    <input type="checkbox" id="GenerateCircle" data-bind="checked: generateCircle">
+                    <input type="checkbox" id="GenerateCircle" data-bind="checked: generateCircle, disable: isRunning">
                   </div>
                 </div>
                 
                 <div class="form-group form-group-sm">
                   <label for="NumberOfCities" class="col-sm-6 control-label">Number of cities</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="NumberOfCities" placeholder="Number of cities" data-bind="value: numberOfCities">
+                    <input class="form-control" id="NumberOfCities" placeholder="Number of cities" data-bind="value: numberOfCities, disable: isRunning">
                   </div>
                 </div>
                 
                 <div class="form-group form-group-sm">
                   <label for="GenerationSize" class="col-sm-6 control-label">Generation size</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="GenerationSize" placeholder="Generation size" data-bind="value: generationSize">
+                    <input class="form-control" id="GenerationSize" placeholder="Generation size" data-bind="value: generationSize, disable: isRunning">
                   </div>
                 </div>
                 
                 <div class="form-group form-group-sm">
                   <label for="CrossoverRate" class="col-sm-6 control-label">Crossover rate</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="CrossoverRate" placeholder="Crossover rate" data-bind="value: crossoverRate">
+                    <input class="form-control" id="CrossoverRate" placeholder="Crossover rate" data-bind="value: crossoverRate, disable: isRunning">
                   </div>
                 </div>
                 
                 
                 
                 
-                <button type="button" class="btn btn-default" data-bind="click: Reset">Reset</button>
+                <button type="button" class="btn btn-default" data-bind="click: Reset, disable: isRunning">Reset</button>
                 
               </form>  
                 
               
             </div>
-          </div>
+          </div> 
+          <!--end options panel-->
           
+          <!--control panel-->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Controls</h3>
+            </div>
+            <div class="panel-body">
+              <button type="button" class="btn btn-primary" data-bind="click: StartEvolution, disable: isRunning">Start</button>
+              <button type="button" class="btn btn-danger" data-bind="click: EndEvolution, enable: isRunning">Stop</button>
+              
+              <button type="button" class="btn btn-default" data-bind="click: RunEpoch, disable: isRunning">Run single epoch</button>
+            </div>
+          </div>
+          <!--end control panel-->
+          
+          <!--info panel-->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Info</h3>
+            </div>
+            <div class="panel-body">
+              
+              <div class="form-group form-group-sm">
+                <label for="GenerationCount" class="col-sm-6 control-label">Generations</label>
+                <label id="GenerationCount" class="col-sm-6 control-label" data-bind="text: engine.generationCount"></label>
+              </div>
+                
+            </div>
+          </div>
+          <!--end info panel-->
         </div>
       </div>
     </div>

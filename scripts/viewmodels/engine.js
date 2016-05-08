@@ -1,11 +1,18 @@
-function Engine() {
+function Engine(params) {
     var self = this;
     
     self.generation = [];
+    self.generationCount = ko.observable(0);
     
+    self.generationSize = null;
+    self.crossoverRate = null;
     
-    self.Init = function (numberOfCities, generationSize) {
+    self.Init = function (numberOfCities, generationSize, crossoverRate) {
         self.generation = [];
+        self.generationCount(0);
+        
+        self.generationSize = generationSize;
+        self.crossoverRate = crossoverRate;
         
         for (var i = 0; i < generationSize; i++) {
             self.generation.push(self.GetChromosone(numberOfCities));
@@ -30,6 +37,33 @@ function Engine() {
         return chromosone;
     };
     
+    //one evolution cycle
+    self.Epoch = function (EvaluateFitness) {
+        var newGeneration = [];
+        newGeneration.push(self.GetFittest(EvaluateFitness));
+        
+        while(newGeneration.length < self.generationSize){
+            var parent1 = self.Select();
+            var parent2 = self.Select();
+            
+            if(Math.random() < self.crossoverRate/100){
+                if(newGeneration.length < self.generationSize)
+                    newGeneration.push(parent1);
+                if(newGeneration.length < self.generationSize)
+                    newGeneration.push(parent2);
+            } else {
+                if(newGeneration.length < self.generationSize)
+                    newGeneration.push(parent1);
+                if(newGeneration.length < self.generationSize)
+                    newGeneration.push(parent2);
+            };
+        };
+        
+        self.generation = newGeneration;
+        self.generationCount(self.generationCount() + 1);
+    }
+    
+    //Uses EvaluateFitness function to find the fittest gene
     self.GetFittest = function(EvaluateFitness) {
         var currentFittest = self.generation[0];
         var highestFitness = EvaluateFitness(currentFittest);
@@ -47,5 +81,24 @@ function Engine() {
         }
         
         return currentFittest;
+    }
+    
+    self.Select = function() {
+        var totalFitness = 0;
+        for (var i = 0; i < self.generation.length; i++) 
+            totalFitness += self.generation[i].fitness;
+
+        var selectionPoint = Math.random() * totalFitness;
+
+        var currentIndex = 0;
+        var runningTotal = 0;
+        while (runningTotal < selectionPoint)
+        {
+            var fitness = self.generation[currentIndex].fitness;
+            runningTotal += fitness;
+            currentIndex++;
+        }
+
+        return self.generation[currentIndex - 1];
     }
 };
