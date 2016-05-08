@@ -14,7 +14,7 @@
         <div id="landscapeCell" class="col-md-9">
           <canvas id="cityLandscape" width="800" height="600" data-bind="renderCities: cityManager.cities"></canvas>
           
-          <canvas id="routeLandscape" width="800" height="600"></canvas>
+          <canvas id="routeLandscape" width="800" height="600" data-bind="renderChromosome: fittestChromosome, cities: cityManager.cities"></canvas>
         </div>
         
         <!--right section-->
@@ -138,10 +138,10 @@
 
 <!--bindinghandlers-->
 <script src="./scripts/bindinghandlers/ko.renderCities.js"></script>
+<script src="./scripts/bindinghandlers/ko.renderChromosome.js"></script>
 
 <!--viewmodels-->
 <script src="./scripts/pathFinder.js"></script>
-<script src="./scripts/viewmodels/renderer.js"></script>
 <script src="./scripts/viewmodels/city.js"></script>
 <script src="./scripts/viewmodels/cityManager.js"></script>
 <script src="./scripts/viewmodels/engine.js"></script>
