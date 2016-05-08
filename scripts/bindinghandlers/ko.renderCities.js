@@ -4,7 +4,7 @@ ko.bindingHandlers.renderCities = {
         var canvas = element;
         canvas.width = canvas.width; //clear canvas
         
-        cities = ko.utils.unwrapObservable(valueAccessor());
+        var cities = ko.utils.unwrapObservable(valueAccessor());
         if(cities.length > 0){
             const cityIconSize = 15;
             var iconRadius = cityIconSize/2;

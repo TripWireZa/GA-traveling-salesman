@@ -9,8 +9,7 @@ function PathFinder(options) {
     self.cityCanvasHeight = options.cityCanvasHeight;
     self.fittestChromosome = ko.observable(null);
     self.isRunning = ko.observable(false);
-    
-    self.renderer = new Renderer();
+
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
     
@@ -25,12 +24,9 @@ function PathFinder(options) {
     self.Reset = function () {
         self.cityManager.GenerateCities(self.numberOfCities(), self.generateCircle());
         
-        
         self.engine.Init(self.numberOfCities(), self.generationSize(), self.crossoverRate());
         
         self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
-        
-        self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
     };
     
     self.StartEvolution = function(){
@@ -46,7 +42,6 @@ function PathFinder(options) {
                     mustRun = false;    //only stop after a full generation cycle
                     
                 self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
-                self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
             }
         }
     }
@@ -58,7 +53,6 @@ function PathFinder(options) {
     self.RunEpoch = function(){
         self.engine.Epoch(self.EvaluateFitness);
         self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
-        self.renderer.DrawFittestChromosome(self.fittestChromosome(), self.cityManager.cities());
     };
     
     // evolution methods
