@@ -4,33 +4,52 @@ function Renderer(params) {
     self.cityIconSize = params.CityIconSize;
     self.iconRadius = params.CityIconSize/2;
     self.iconWallOffset = params.CityIconSize/3;
+    self.cityCanvas = $('#cityLandscape')[0];
+    self.cityContext = self.cityCanvas.getContext('2d');
+    self.routeCanvas = $('#routeLandscape')[0];
+    self.routeContext = self.routeCanvas.getContext('2d');
     
-    self.Render = function (cities) {
-        var canvas = $('#landscape')[0];
-        var context = canvas.getContext('2d');
-        canvas.width = canvas.width;
-        self.DrawCities(context, cities);
-    }
-    
-    self.DrawCities = function(context, cities){
+    self.DrawCities = function(cities){
+        //clear canvas
+        self.cityCanvas.width = self.cityCanvas.width;
+        
         for (var i = 0; i < cities.length; i++){
-            self.DrawHouse(context, cities[i]);
+            self.DrawHouse(cities[i]);
         }
+    };
+    
+    self.DrawHouse = function(city){
+        self.cityContext.moveTo(city.x - self.iconRadius, city.y);
+        self.cityContext.lineTo(city.x, city.y - self.iconRadius);
+        self.cityContext.lineTo(city.x + self.iconRadius, city.y);
+        self.cityContext.lineTo(city.x + self.iconWallOffset, city.y);
+        self.cityContext.lineTo(city.x + self.iconWallOffset, city.y + self.iconRadius);
+        self.cityContext.lineTo(city.x - self.iconWallOffset, city.y + self.iconRadius);
+        self.cityContext.lineTo(city.x - self.iconWallOffset, city.y);
+        self.cityContext.closePath();
+        self.cityContext.fillStyle = 'red';
+        self.cityContext.fill();
+        self.cityContext.lineWidth = 1;
+        self.cityContext.strokeStyle = '#000000';
+        self.cityContext.stroke();
     }
     
-    self.DrawHouse = function(context, city){
-        context.moveTo(city.x - self.iconRadius, city.y);
-        context.lineTo(city.x, city.y - self.iconRadius);
-        context.lineTo(city.x + self.iconRadius, city.y);
-        context.lineTo(city.x + self.iconWallOffset, city.y);
-        context.lineTo(city.x + self.iconWallOffset, city.y + self.iconRadius);
-        context.lineTo(city.x - self.iconWallOffset, city.y + self.iconRadius);
-        context.lineTo(city.x - self.iconWallOffset, city.y);
-        context.closePath();
-        context.fillStyle = 'red';
-        context.fill();
-        context.lineWidth = 1;
-        context.strokeStyle = '#000000';
-        context.stroke();
-    }
+    self.DrawFittestChromosome = function(chromosome, cities){
+        
+        //clear canvas
+        self.routeCanvas.width = self.routeCanvas.width;
+        
+        var city = cities[chromosome.genes[0]];
+        self.routeContext.moveTo(city.x, city.y);
+        
+        for (var i = 1; i < chromosome.genes.length; i++){
+            city = cities[chromosome.genes[i]];
+            self.routeContext.lineTo(city.x, city.y);
+        };
+        
+        self.routeContext.closePath();
+        self.routeContext.lineWidth = 1;
+        self.routeContext.strokeStyle = '#000000';
+        self.routeContext.stroke();
+    };
 }

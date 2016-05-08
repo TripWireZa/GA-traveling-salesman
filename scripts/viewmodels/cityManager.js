@@ -1,7 +1,9 @@
-function CityManager() {
+function CityManager(params) {
     var self = this;
     
     self.cities = ko.observableArray([]);
+    self.cityCanvasWidth = params.cityCanvasWidth;
+    self.cityCanvasHeight = params.cityCanvasHeight;
     
     self.GenerateCities = function (numberOfCities, generateCircle) {
         
@@ -36,15 +38,15 @@ function CityManager() {
     }
     
     self.GenerateCitiesRandom = function (numberOfCities) {
-        var canvas = $('#landscape')[0];
+        
         var newCityList = [];
         
         for (var i = 0; i < numberOfCities; i++)
         {
             newCityList.push(
                 new City(
-                    Math.floor((Math.random() * canvas.width) + 0), 
-                    Math.floor((Math.random() * canvas.height ) + 0)
+                    Math.floor((Math.random() * self.cityCanvasWidth) + 0), 
+                    Math.floor((Math.random() * self.cityCanvasHeight) + 0)
                 ));
             ;
         }

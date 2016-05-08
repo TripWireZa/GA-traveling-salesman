@@ -5,6 +5,8 @@ function Engine() {
     
     
     self.Init = function (numberOfCities, generationSize) {
+        self.generation = [];
+        
         for (var i = 0; i < generationSize; i++) {
             self.generation.push(self.GetChromosone(numberOfCities));
         };
@@ -27,4 +29,23 @@ function Engine() {
         chromosone.genes = genes;
         return chromosone;
     };
+    
+    self.GetFittest = function(EvaluateFitness) {
+        var currentFittest = self.generation[0];
+        var highestFitness = EvaluateFitness(currentFittest);
+        
+        for (var i = 0; i < self.generation.length; i++) {
+            var chromosome = self.generation[i];
+            if(chromosome.fitness === null)
+                chromosome.fitness = EvaluateFitness(chromosome);
+                
+            if (chromosome.fitness > highestFitness)
+            {
+                currentFittest = chromosome;
+                highestFitness = chromosome.fitness;
+            }
+        }
+        
+        return currentFittest;
+    }
 };

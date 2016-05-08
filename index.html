@@ -11,8 +11,9 @@
       <div class="row">
         
         <!--main panel-->
-        <div class="col-md-9">
-          <canvas id="landscape" width="800" height="600" style="border:1px solid #000000;"><canvas>
+        <div id="landscapeCell" class="col-md-9">
+          <canvas id="cityLandscape" width="800" height="600"></canvas>
+          <canvas id="routeLandscape" width="800" height="600"></canvas>
         </div>
         
         <!--right section-->
@@ -79,11 +80,15 @@
 
   $(document).ready(function () {
           
+    var cityCanvas = $('#cityLandscape')[0];
+
     var options = {
       generateCircle: true,
       numberOfCities: 24,
       crossoverRate: 80,
-      generationSize: 100
+      generationSize: 100,
+      cityCanvasWidth: cityCanvas.width,
+      cityCanvasHeight: cityCanvas.height
     };
 
     var pathFinder = new PathFinder(options);
