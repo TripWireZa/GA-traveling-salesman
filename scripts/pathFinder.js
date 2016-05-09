@@ -39,7 +39,7 @@ function PathFinder(options) {
     };
     
     self.RunEpoch = function(){
-        self.engine.Epoch(self.EvaluateFitness);
+        self.engine.Epoch(self.EvaluateFitness, self.Crossover);
         
         if(self.isRunning()){
             if (self.engine.generationCount() % 100 == 0)
@@ -50,7 +50,7 @@ function PathFinder(options) {
         };
     };
     
-    self.EndEvolution =function(){
+    self.EndEvolution =function() {
         self.isRunning(false);
     }
     
@@ -80,4 +80,40 @@ function PathFinder(options) {
         return 1 / totalDistance;
     }
     
+    self.Crossover = function(chromosome1, chromosome2) {
+        
+        var switchIndex = Math.floor((Math.random() * self.numberOfCities()));
+        var switchLength = Math.floor((Math.random() * (self.numberOfCities() - switchIndex)) + 1);
+
+        var newGenes1 = Array.from(chromosome1.genes);
+        var newGenes2 = Array.from(chromosome2.genes);
+
+        for (var i = switchIndex; i < switchLength + switchIndex; i++)
+        {
+            var val1 = newGenes1[i];
+            var val2 = newGenes2[i];
+
+            for (var j = 0; j < newGenes1.length; j++)
+            {
+                if (newGenes1[j] == val1)
+                    newGenes1[j] = val2;
+                else if (newGenes1[j] == val2)
+                    newGenes1[j] = val1;
+            }
+            for (var j = 0; j < newGenes2.length; j++)
+            {
+                if (newGenes2[j] == val1)
+                    newGenes2[j] = val2;
+                else if (newGenes2[j] == val2)
+                    newGenes2[j] = val1;
+            }
+        }
+        
+        var newChromosone1 = new Chromosone();
+        newChromosone1.genes = newGenes1;
+        var newChromosone2 = new Chromosone();
+        newChromosone2.genes = newGenes2;
+        
+        return {chromosome1: newChromosone1, chromosome2: newChromosone2};
+    }
 }

@@ -34,7 +34,7 @@ function CityManager(params) {
         }
         
         self.cities(newCityList);
-    }
+    };
     
     self.GenerateCitiesRandom = function (numberOfCities) {
         
@@ -44,11 +44,11 @@ function CityManager(params) {
         {
             newCityList.push(
                 new City(
-                    Math.floor((Math.random() * self.cityCanvasWidth) + 0), 
-                    Math.floor((Math.random() * self.cityCanvasHeight) + 0)
+                    Math.floor((Math.random() * self.cityCanvasWidth)), 
+                    Math.floor((Math.random() * self.cityCanvasHeight))
                 ));
             ;
         }
         self.cities(newCityList);
-    }
+    };
 }

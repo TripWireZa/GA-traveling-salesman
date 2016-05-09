@@ -38,7 +38,7 @@ function Engine(params) {
     };
     
     //one evolution cycle
-    self.Epoch = function (EvaluateFitness) {
+    self.Epoch = function (EvaluateFitness, Crossover) {
         var newGeneration = [];
         newGeneration.push(self.GetFittest(EvaluateFitness));
         
@@ -47,10 +47,12 @@ function Engine(params) {
             var parent2 = self.Select();
             
             if(Math.random() < self.crossoverRate/100){
+                var crossoverPair = Crossover(parent1, parent2);
+                
                 if(newGeneration.length < self.generationSize)
-                    newGeneration.push(parent1);
+                    newGeneration.push(crossoverPair.chromosome1);
                 if(newGeneration.length < self.generationSize)
-                    newGeneration.push(parent2);
+                    newGeneration.push(crossoverPair.chromosome2);
             } else {
                 if(newGeneration.length < self.generationSize)
                     newGeneration.push(parent1);
@@ -83,6 +85,7 @@ function Engine(params) {
         return currentFittest;
     }
     
+    //selects a chromosome
     self.Select = function() {
         var totalFitness = 0;
         for (var i = 0; i < self.generation.length; i++) 
