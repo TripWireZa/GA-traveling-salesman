@@ -31,29 +31,28 @@ function PathFinder(options) {
     
     self.StartEvolution = function(){
         self.isRunning(true);
-        
-        var mustRun = true
-        while(mustRun){
-            self.engine.Epoch(self.EvaluateFitness);
-            
-            if (self.engine.generationCount % 100 == 0)
-            {
-                if(!self.isRunning())
-                    mustRun = false;    //only stop after a full generation cycle
-                    
-                self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
-            }
-        }
+        self.RunEpoch();
     }
+    
+    self.RunEpochOnce = function(){
+        self.RunEpoch();
+    };
+    
+    self.RunEpoch = function(){
+        self.engine.Epoch(self.EvaluateFitness);
+        
+        if(self.isRunning()){
+            if (self.engine.generationCount() % 100 == 0)
+                self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
+            setTimeout(self.RunEpoch, 0);
+        } else {
+            self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
+        };
+    };
     
     self.EndEvolution =function(){
         self.isRunning(false);
     }
-    
-    self.RunEpoch = function(){
-        self.engine.Epoch(self.EvaluateFitness);
-        self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
-    };
     
     // evolution methods
     //==================
