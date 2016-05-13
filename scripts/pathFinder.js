@@ -4,6 +4,7 @@ function PathFinder(options) {
     self.numberOfCities = ko.observable(options.numberOfCities);
     self.generateCircle = ko.observable(options.generateCircle);
     self.crossoverRate = ko.observable(options.crossoverRate);
+    self.mutationRate = ko.observable(options.mutationRate);
     self.generationSize = ko.observable(options.generationSize);
     self.cityCanvasWidth = options.cityCanvasWidth;
     self.cityCanvasHeight = options.cityCanvasHeight;
@@ -13,6 +14,7 @@ function PathFinder(options) {
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
     
+    //Input validation
     self.canReset = ko.computed(function() {
         if(self.numberOfCities() < 0)
             return false;
@@ -22,6 +24,8 @@ function PathFinder(options) {
             return false;
         if(self.isRunning())
             return false;
+        if(self.mutationRate() < 0 || self.mutationRate() > 100)
+            return false; 
         
         return true;
     });
@@ -35,7 +39,7 @@ function PathFinder(options) {
     self.Reset = function () {
         self.cityManager.GenerateCities(self.numberOfCities(), self.generateCircle());
         
-        self.engine.Init(self.numberOfCities(), self.generationSize(), self.crossoverRate());
+        self.engine.Init(self.numberOfCities(), self.generationSize(), self.crossoverRate(), self.mutationRate());
         
         self.fittestChromosome(self.engine.GetFittest(self.EvaluateFitness));
     };
@@ -50,7 +54,7 @@ function PathFinder(options) {
     };
     
     self.RunEpoch = function(){
-        self.engine.Epoch(self.EvaluateFitness, self.Crossover);
+        self.engine.Epoch(self.EvaluateFitness, self.Crossover, self.Mutate);
         
         if(self.isRunning()){
             if (self.engine.generationCount() % 100 == 0)
@@ -129,5 +133,18 @@ function PathFinder(options) {
         return {chromosome1: newChromosone1, chromosome2: newChromosone2};
     }
     
-
+    self.Mutate = function(chromosome) {
+        var swapIndex1 = Math.floor((Math.random() * self.numberOfCities()));
+        var swapIndex2 = Math.floor((Math.random() * self.numberOfCities()));
+        
+        var newGenes = Array.from(chromosome.genes);
+        
+        var temp = newGenes[swapIndex2];
+        newGenes[swapIndex2] = newGenes[swapIndex1];
+        newGenes[swapIndex1] = temp;
+        
+        var newChromosone = new Chromosone();
+        newChromosone.genes = newGenes;
+        return newChromosone;
+    }
 }

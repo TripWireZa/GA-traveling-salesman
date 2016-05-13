@@ -6,13 +6,15 @@ function Engine(params) {
     
     self.generationSize = null;
     self.crossoverRate = null;
+    self.mutationRate - null;
     
-    self.Init = function (numberOfCities, generationSize, crossoverRate) {
+    self.Init = function (numberOfCities, generationSize, crossoverRate, mutationRate) {
         self.generation = [];
         self.generationCount(0);
         
         self.generationSize = generationSize;
         self.crossoverRate = crossoverRate;
+        self.mutationRate = mutationRate;
         
         for (var i = 0; i < generationSize; i++) {
             self.generation.push(self.GetChromosone(numberOfCities));
@@ -38,7 +40,7 @@ function Engine(params) {
     };
     
     //one evolution cycle
-    self.Epoch = function (fn_EvaluateFitness, fn_Crossover) {
+    self.Epoch = function (fn_EvaluateFitness, fn_Crossover, fn_Mutate) {
         var newGeneration = [];
         newGeneration.push(self.GetFittest(fn_EvaluateFitness));
         
@@ -61,7 +63,17 @@ function Engine(params) {
             };
         };
         
-        
+        for (var i = 1; i < self.generationSize; i++)
+        {
+            if (Math.random() < self.mutationRate/100)
+            {
+                var chromosome = newGeneration[i];
+
+                var mutatedChromosome = fn_Mutate(chromosome);
+
+                newGeneration[i] = mutatedChromosome;
+            }
+        }
         
         self.generation = newGeneration;
         self.generationCount(self.generationCount() + 1);

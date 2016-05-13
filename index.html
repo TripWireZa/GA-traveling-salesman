@@ -59,7 +59,13 @@
                   </div>
                 </div>
                 
-                
+                <div class="form-group form-group-sm">
+                  <label for="MutationRate" class="col-sm-6 control-label">Mutation rate %</label>
+                  <div class="col-sm-6">
+                    <input type="number" min="0" max="100" class="form-control" id="MutationRate" placeholder="Mutation rate" 
+                    data-bind="value: mutationRate, disable: isRunning, limitedNumbers: mutationRate, minLimit: 0, maxLimit: 100">
+                  </div>
+                </div>
                 
                 
                 <button type="button" class="btn btn-default" data-bind="click: Reset, enable: canReset">Reset</button>
@@ -123,6 +129,7 @@
       generateCircle: true,
       numberOfCities: 24,
       crossoverRate: 80,
+      mutationRate: 50,
       generationSize: 100,
       cityCanvasWidth: cityCanvas.width,
       cityCanvasHeight: cityCanvas.height
