@@ -38,28 +38,31 @@
                 <div class="form-group form-group-sm">
                   <label for="NumberOfCities" class="col-sm-6 control-label">Number of cities</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="NumberOfCities" placeholder="Number of cities" data-bind="value: numberOfCities, disable: isRunning">
+                    <input type="number" min="0" class="form-control" id="NumberOfCities" placeholder="Number of cities" 
+                    data-bind="value: numberOfCities, disable: isRunning, limitedNumbers: numberOfCities, minLimit: 0">
                   </div>
                 </div>
                 
                 <div class="form-group form-group-sm">
                   <label for="GenerationSize" class="col-sm-6 control-label">Generation size</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="GenerationSize" placeholder="Generation size" data-bind="value: generationSize, disable: isRunning">
+                    <input type="number" min="0" class="form-control" id="GenerationSize" placeholder="Generation size" 
+                    data-bind="value: generationSize, disable: isRunning, limitedNumbers: generationSize, minLimit: 0">
                   </div>
                 </div>
                 
                 <div class="form-group form-group-sm">
-                  <label for="CrossoverRate" class="col-sm-6 control-label">Crossover rate</label>
+                  <label for="CrossoverRate" class="col-sm-6 control-label">Crossover rate %</label>
                   <div class="col-sm-6">
-                    <input class="form-control" id="CrossoverRate" placeholder="Crossover rate" data-bind="value: crossoverRate, disable: isRunning">
+                    <input type="number" min="0" max="100" class="form-control" id="CrossoverRate" placeholder="Crossover rate" 
+                    data-bind="value: crossoverRate, disable: isRunning, limitedNumbers: crossoverRate, minLimit: 0, maxLimit: 100">
                   </div>
                 </div>
                 
                 
                 
                 
-                <button type="button" class="btn btn-default" data-bind="click: Reset, disable: isRunning">Reset</button>
+                <button type="button" class="btn btn-default" data-bind="click: Reset, enable: canReset">Reset</button>
                 
               </form>  
                 
@@ -137,6 +140,7 @@
 <script src="./scripts/packages/bootstrap.min.js"></script>
 
 <!--bindinghandlers-->
+<script src="./scripts/bindinghandlers/ko.limitedNumbers.js"></script>
 <script src="./scripts/bindinghandlers/ko.renderCities.js"></script>
 <script src="./scripts/bindinghandlers/ko.renderChromosome.js"></script>
 

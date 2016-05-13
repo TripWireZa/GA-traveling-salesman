@@ -13,7 +13,18 @@ function PathFinder(options) {
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
     
-    
+    self.canReset = ko.computed(function() {
+        if(self.numberOfCities() < 0)
+            return false;
+        if(self.generationSize() < 0)
+            return false;
+        if(self.crossoverRate() < 0 || self.crossoverRate() > 100)
+            return false;
+        if(self.isRunning())
+            return false;
+        
+        return true;
+    });
     
     self.Init = function () {
         
@@ -52,7 +63,7 @@ function PathFinder(options) {
     
     self.EndEvolution =function() {
         self.isRunning(false);
-    }
+    };
     
     // evolution methods
     //==================
@@ -88,7 +99,8 @@ function PathFinder(options) {
         var newGenes1 = Array.from(chromosome1.genes);
         var newGenes2 = Array.from(chromosome2.genes);
 
-        for (var i = switchIndex; i < switchLength + switchIndex; i++)
+        var maxIndex = switchLength + switchIndex;
+        for (var i = switchIndex; i < maxIndex; i++)
         {
             var val1 = newGenes1[i];
             var val2 = newGenes2[i];
@@ -116,4 +128,6 @@ function PathFinder(options) {
         
         return {chromosome1: newChromosone1, chromosome2: newChromosone2};
     }
+    
+
 }

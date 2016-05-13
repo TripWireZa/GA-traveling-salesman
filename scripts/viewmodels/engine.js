@@ -38,16 +38,16 @@ function Engine(params) {
     };
     
     //one evolution cycle
-    self.Epoch = function (EvaluateFitness, Crossover) {
+    self.Epoch = function (fn_EvaluateFitness, fn_Crossover) {
         var newGeneration = [];
-        newGeneration.push(self.GetFittest(EvaluateFitness));
+        newGeneration.push(self.GetFittest(fn_EvaluateFitness));
         
         while(newGeneration.length < self.generationSize){
             var parent1 = self.Select();
             var parent2 = self.Select();
             
             if(Math.random() < self.crossoverRate/100){
-                var crossoverPair = Crossover(parent1, parent2);
+                var crossoverPair = fn_Crossover(parent1, parent2);
                 
                 if(newGeneration.length < self.generationSize)
                     newGeneration.push(crossoverPair.chromosome1);
@@ -61,19 +61,21 @@ function Engine(params) {
             };
         };
         
+        
+        
         self.generation = newGeneration;
         self.generationCount(self.generationCount() + 1);
     }
     
-    //Uses EvaluateFitness function to find the fittest gene
-    self.GetFittest = function(EvaluateFitness) {
+    //Uses fn_EvaluateFitness function to find the fittest gene
+    self.GetFittest = function(fn_EvaluateFitness) {
         var currentFittest = self.generation[0];
-        var highestFitness = EvaluateFitness(currentFittest);
+        var highestFitness = fn_EvaluateFitness(currentFittest);
         
         for (var i = 0; i < self.generation.length; i++) {
             var chromosome = self.generation[i];
             if(chromosome.fitness === null)
-                chromosome.fitness = EvaluateFitness(chromosome);
+                chromosome.fitness = fn_EvaluateFitness(chromosome);
                 
             if (chromosome.fitness > highestFitness)
             {
