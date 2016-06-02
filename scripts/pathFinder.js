@@ -13,6 +13,7 @@ function PathFinder(options) {
 
     self.cityManager = new CityManager({cityCanvasWidth: self.cityCanvasWidth, cityCanvasHeight: self.cityCanvasHeight});
     self.engine = new Engine();
+    self.helper = new Helper();
     
     //Input validation
     self.canReset = ko.computed(function() {
@@ -97,8 +98,8 @@ function PathFinder(options) {
     
     self.Crossover = function(chromosome1, chromosome2) {
         
-        var switchIndex = Math.floor((Math.random() * self.numberOfCities()));
-        var switchLength = Math.floor((Math.random() * (self.numberOfCities() - switchIndex)) + 1);
+        var switchIndex = self.helper.randomIntFromInterval(0, self.numberOfCities() - 1);
+        var switchLength = self.helper.randomIntFromInterval(1, self.numberOfCities() - switchIndex - 1);
 
         var newGenes1 = Array.from(chromosome1.genes);
         var newGenes2 = Array.from(chromosome2.genes);
@@ -134,17 +135,43 @@ function PathFinder(options) {
     }
     
     self.Mutate = function(chromosome) {
-        var swapIndex1 = Math.floor((Math.random() * self.numberOfCities()));
-        var swapIndex2 = Math.floor((Math.random() * self.numberOfCities()));
+        var randomMutate = self.helper.randomIntFromInterval(0, 1);
+        
+        if(randomMutate == 0)
+            return self.SwapMutate(chromosome);
+            
+        if(randomMutate == 1)
+            return self.ReverseMutate(chromosome);
+
+    }
+    
+    self.SwapMutate = function(chromosome) {
+        var swapIndex1 = self.helper.randomIntFromInterval(0, self.numberOfCities() - 1);
+        var swapIndex2 = self.helper.randomIntFromInterval(0, self.numberOfCities() - 1);
         
         var newGenes = Array.from(chromosome.genes);
-        
+
         var temp = newGenes[swapIndex2];
         newGenes[swapIndex2] = newGenes[swapIndex1];
         newGenes[swapIndex1] = temp;
         
         var newChromosone = new Chromosone();
         newChromosone.genes = newGenes;
+        return newChromosone;
+    }
+    
+    self.ReverseMutate = function(chromosome){
+
+        var index = self.helper.randomIntFromInterval(0, self.numberOfCities() - 1);
+        var length = self.helper.randomIntFromInterval(0, self.numberOfCities() - index - 1);
+        
+        var newGenes = Array.from(chromosome.genes);
+        
+        var startChunk = newGenes.splice(0, index);
+        var reverseChunk = newGenes.splice(0, length).reverse(); 
+
+        var newChromosone = new Chromosone();
+        newChromosone.genes = startChunk.concat(reverseChunk, newGenes);
         return newChromosone;
     }
 }
